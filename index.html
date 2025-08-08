@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Statistics Canada Data Explorer</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Vega and Vega-Lite libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-content">
+                <div class="logo-section">
+                    <i class="fas fa-chart-line logo-icon"></i>
+                    <h1>Statistics Canada Explorer</h1>
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-outline" id="help-btn">
+                        <i class="fas fa-question-circle"></i>
+                        Help
+                    </button>
+                    <button class="btn btn-outline" id="settings-btn">
+                        <i class="fas fa-cog"></i>
+                        Settings
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <div class="main-layout">
+            <!-- Sidebar -->
+            <aside class="sidebar">
+                <div class="sidebar-content">
+                    <!-- Product Explorer Section -->
+                    <div class="section">
+                        <div class="section-header">
+                            <i class="fas fa-database"></i>
+                            <h2>Product Explorer</h2>
+                            <button class="btn-icon" id="refresh-products" title="Refresh Products">
+                                <i class="fas fa-sync-alt"></i>
+                            </button>
+                        </div>
+
+                        <div class="search-container">
+                            <input type="text" id="product-search" placeholder="Search products..." class="search-input">
+                            <i class="fas fa-search search-icon"></i>
+                        </div>
+
+                        <div class="product-list" id="product-list">
+                            <!-- Products will be loaded here -->
+                        </div>
+                    </div>
+
+                    <!-- Selected Vectors Section -->
+                    <div class="section">
+                        <div class="section-header">
+                            <i class="fas fa-layer-group"></i>
+                            <h2>Selected Vectors</h2>
+                            <span class="vector-count" id="vector-count">0</span>
+                        </div>
+
+                        <div class="selected-vectors" id="selected-vectors">
+                            <div class="empty-state">
+                                <i class="fas fa-plus-circle"></i>
+                                <p>Select vectors from products above</p>
+                            </div>
+                        </div>
+
+                        <div class="vector-actions">
+                            <button class="btn btn-primary" id="fetch-data" disabled>
+                                <i class="fas fa-download"></i>
+                                Fetch Data
+                            </button>
+                            <button class="btn btn-outline" id="clear-vectors">
+                                <i class="fas fa-trash"></i>
+                                Clear All
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Visualization Controls -->
+                    <div class="section">
+                        <div class="section-header">
+                            <i class="fas fa-chart-bar"></i>
+                            <h2>Visualization</h2>
+                        </div>
+
+                        <div class="viz-controls">
+                            <div class="control-group">
+                                <label>Chart Type</label>
+                                <div class="chart-type-buttons">
+                                    <button class="viz-btn active" data-viz="line" title="Line Chart">
+                                        <i class="fas fa-chart-line"></i>
+                                    </button>
+                                    <button class="viz-btn" data-viz="bar" title="Bar Chart">
+                                        <i class="fas fa-chart-bar"></i>
+                                    </button>
+                                    <button class="viz-btn" data-viz="table" title="Table View">
+                                        <i class="fas fa-table"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <main class="main-content">
+                <div class="visualization-card">
+                    <div class="visualization-header">
+                        <h2>Data Visualization</h2>
+                        <div class="visualization-actions">
+                            <button class="btn btn-sm btn-outline" id="export-btn" title="Export Data">
+                                <i class="fas fa-download"></i> Export
+                            </button>
+                            <button class="btn btn-sm btn-outline" id="fullscreen-btn" title="Toggle Fullscreen">
+                                <i class="fas fa-expand"></i> Fullscreen
+                            </button>
+                        </div>
+                    </div>
+                    <div id="visualization-container">
+                        <div id="visualization">
+                            <!-- Vega visualization will be rendered here -->
+                        </div>
+                        <div id="loader" class="loader-overlay" style="display: none;">
+                            <div class="loader-spinner"></div>
+                        </div>
+                    </div>
+                    <div id="chart-meta" class="chart-meta">
+                        <!-- Metadata will be loaded here -->
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+    <script src="app.js" defer></script>
+</body>
