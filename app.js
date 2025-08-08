@@ -354,14 +354,14 @@ class StatCanExplorer {
 
         // Format request data according to Statistics Canada API specification
         // API expects: [{"vectorId":32164132, "latestN":3}]
-        const requestData = Array.from(this.selectedVectors.keys()).map(vectorId => {
-            // Remove 'v' prefix if present and convert to integer
-            const numericId = vectorId.startsWith('v') ? parseInt(vectorId.substring(1)) : parseInt(vectorId);
-            return {
-                vectorId: numericId,
-                latestN: periods
-            };
-        });
+        // Statistics Canada API expects an object with an array of vectorIds and a single latestN value
+        const requestData = {
+            vectorIds: Array.from(this.selectedVectors.keys()).map(vectorId => {
+                // Remove 'v' prefix if present and convert to integer
+                return vectorId.startsWith('v') ? parseInt(vectorId.substring(1)) : parseInt(vectorId);
+            }),
+            latestN: periods
+        };
 
         try {
             console.log('Attempting to fetch data for vectors:', requestData);
